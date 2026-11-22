@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rabby Sarkar · Naval Architect & Marine Engineer">
+<meta property="og:description" content="Ship design, offshore hydrodynamics and structural analysis. B.Sc. NAME, MIST 2026.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Rabby Sarkar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Rabby Sarkar, Naval Architect and Marine Engineer: ship design, offshore hydrodynamics and structural analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a drafting sheet on cream paper. Hero opens on an animated sea with a container ship; sections alternate cream and light-blue bands, each headed by a frame-spacing ruler; brass-gold marks the highlights. */
+:root {
+  --paper: #fbf6ea;      /* cream */
+  --panel: #f3e9d2;      /* deeper cream */
+  --plate: #ffffff;
+  --ink: #13263a;        /* navy ink */
+  --muted: #5b6672;
+  --line: #e2d4b4;       /* gold-tinted rule */
+  --sea: #2c7da0;        /* light-blue sea, text-safe */
+  --sea-soft: #dff0f8;   /* light blue band */
+  --gold: #cfa046;       /* brass fills */
+  --accent: #8e6514;     /* gold for text */
+  --on-accent: #13263a;
+  --display: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.4rem;
+  --step-3: clamp(1.8rem, 3.6vw, 2.5rem);
+  --step-4: clamp(3rem, 7.4vw, 5.6rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1a26; --panel: #142333; --plate: #f7f3ea; --ink: #f3ebd8; --muted: #a9b6c2; --line: #2a3d50;
+    --sea: #8cc8e8; --sea-soft: #12283a; --gold: #d9ae57; --accent: #e2b862; --on-accent: #0e1a26; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1a26; --panel: #142333; --plate: #f7f3ea; --ink: #f3ebd8; --muted: #a9b6c2; --line: #2a3d50;
+  --sea: #8cc8e8; --sea-soft: #12283a; --gold: #d9ae57; --accent: #e2b862; --on-accent: #0e1a26; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--body); font-size: var(--step-0); line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sea); text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.mono { font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.02em; }
+.label { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px;
+  font-family: var(--mono); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+  text-decoration: none; border: 1.5px solid var(--ink); color: var(--ink); background: transparent; cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.btn svg { width: 16px; height: 16px; flex: none; }
+.btn.primary { position: relative; overflow: hidden; background: var(--gold); border-color: var(--gold); color: var(--on-accent); }
+.btn.primary::after { /* a slow brass glint across the button */
+  content: ""; position: absolute; inset: 0; transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  animation: glint 4.5s ease-in-out 1.2s infinite;
+}
+@keyframes glint { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.btn { transition: background-color .15s, color .15s, border-color .15s, transform .2s, box-shadow .2s; }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); box-shadow: 0 8px 20px -10px var(--ink); }
+@media (prefers-reduced-motion: reduce) { .btn.primary::after { animation: none; } .btn:hover { transform: none; } }
+.btn.small { padding: 8px 14px; font-size: 0.72rem; }
+
+/* ---------- top bar ---------- */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+}
+.bar .wrap { display: flex; align-items: center; gap: 24px; padding-block: 10px; }
+.bar .mark { font-family: var(--display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+.bar .mark i { width: 10px; height: 10px; background: var(--gold); transform: rotate(45deg); display: inline-block; }
+.bar nav { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { font-family: var(--mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; white-space: nowrap; padding-block: 6px; }
+.bar nav a:hover, .bar nav a.on { color: var(--accent); }
+@media (max-width: 760px) {
+  .bar .wrap { flex-wrap: wrap; gap: 6px 16px; }
+  .bar nav { order: 3; flex-basis: 100%; gap: 18px; }
+}
+
+/* ---------- hero ---------- */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+  background: radial-gradient(60% 70% at 85% 20%, color-mix(in srgb, var(--gold) 22%, transparent), transparent 70%),
+              linear-gradient(180deg, var(--paper) 0%, var(--paper) 45%, var(--sea-soft) 100%); }
+.hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 56px; align-items: center; padding-block: 64px 150px; }
+#hero-sea { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 170px; display: block; z-index: 0; pointer-events: none; }
+.hero .kicker { display: inline-flex; align-items: center; gap: 10px; padding: 6px 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--plate) 55%, transparent); }
+.hero .kicker .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 0 var(--gold); animation: ping 2.4s ease-out infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 70%, transparent); } 100% { box-shadow: 0 0 0 10px transparent; } }
+.hero h1 { margin-top: 20px; font-family: var(--display); font-weight: 700; font-size: var(--step-4); line-height: 1; letter-spacing: -0.025em; }
+.hero h1 span { background: linear-gradient(100deg, var(--sea) 10%, var(--gold) 55%, var(--sea) 90%); background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: sheen 8s ease-in-out infinite; }
+@keyframes sheen { 0%, 100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
+.hero .role { margin-top: 18px; font-family: var(--display); font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; line-height: 1.4; display: flex; flex-wrap: wrap; gap: 0 10px; align-items: baseline; }
+.hero .role .rot { position: relative; display: inline-grid; color: var(--accent); }
+.hero .role .rot span { grid-area: 1 / 1; transition: opacity .5s, transform .5s; }
+.hero .role .rot span[aria-hidden="true"] { opacity: 0; transform: translateY(8px); }
+@media (prefers-reduced-motion: reduce) { .hero h1 span, .hero .kicker .dot { animation: none; } }
+.hero .lede { margin-top: 16px; max-width: 56ch; color: var(--muted); }
+.hero .cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+.hero .facts { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.hero .facts div { padding: 14px 14px 0 0; display: grid; gap: 2px; align-content: start; }
+.hero .facts div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+.hero .facts strong { font-family: var(--display); font-weight: 600; font-size: 1.15rem; line-height: 1.25; letter-spacing: -0.01em; }
+@media (max-width: 1000px) { .hero .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hero .facts div:nth-child(3) { padding-left: 0; border-left: 0; } .hero .facts div:nth-child(n+3) { border-top: 1px solid var(--line); margin-top: 14px; } }
+
+.portrait { position: relative; margin: 0; justify-self: end; width: 100%; max-width: 380px; }
+.portrait::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; background: var(--sea-soft); border: 1px solid var(--gold); }
+.portrait::after { /* brass corner brackets, like a drawing's crop marks */
+  content: ""; position: absolute; inset: -10px; pointer-events: none;
+  background:
+    linear-gradient(var(--gold), var(--gold)) top left / 34px 2px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top left / 2px 34px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top right / 34px 2px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) top right / 2px 34px no-repeat;
+}
+.portrait img { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 900 / 1165; object-fit: cover; background: #fff; border: 1px solid var(--line); box-shadow: 0 24px 48px -28px rgba(19, 38, 58, 0.45); animation: float 7s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .portrait img { animation: none; } }
+.portrait figcaption { position: relative; margin-top: 34px; display: flex; justify-content: space-between; gap: 12px; }
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-block: 36px 140px; }
+  .hero .wrap > * { min-width: 0; }
+  .portrait figcaption { flex-direction: column; gap: 2px; }
+  #hero-sea { height: 150px; }
+  .portrait { order: -1; justify-self: start; max-width: 260px; }
+}
+
+/* ---------- sections ---------- */
+section.block { padding-block: 80px 8px; scroll-margin-top: 64px; }
+.head { display: grid; gap: 10px; margin-bottom: 36px; }
+.ruler { height: 12px; border-bottom: 1px solid var(--ink); position: relative;
+  background-image: repeating-linear-gradient(to right, var(--ink) 0 1px, transparent 1px 24px);
+  background-size: 100% 6px; background-repeat: no-repeat; background-position: bottom; }
+.ruler::after { content: ""; position: absolute; inset: auto 0 0 0; height: 12px;
+  background-image: repeating-linear-gradient(to right, var(--ink) 0 1px, transparent 1px 120px); }
+.head .meta { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.head h2 { font-family: var(--display); font-weight: 700; font-size: var(--step-3); line-height: 1.15; letter-spacing: -0.02em; }
+.head h2::after { content: ""; display: block; width: 56px; height: 3px; margin-top: 14px; background: var(--gold); }
+section.block.tint { background: var(--sea-soft); border-block: 1px solid var(--line); padding-bottom: 72px; margin-top: 72px; }
+section.block.tint + section.block { padding-top: 72px; }
+.head .sub { color: var(--muted); max-width: 64ch; }
+.subhead { margin: 44px 0 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: start; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+.prose { display: grid; gap: 16px; max-width: 62ch; }
+.prose .finding { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; font-size: 1.05rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-family: var(--mono); font-size: 0.72rem; padding: 3px 8px; border: 1px solid var(--line); color: var(--muted); }
+
+.particulars { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.particulars caption { text-align: left; padding-bottom: 8px; }
+.particulars th, .particulars td { padding: 7px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.particulars thead th { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 400; border-bottom: 1px solid var(--ink); }
+.particulars tbody th { font-weight: 400; color: var(--muted); padding-right: 16px; }
+.particulars td { font-family: var(--mono); font-size: 0.86rem; text-align: right; white-space: nowrap; padding-left: 12px; }
+.particulars tr.best td, .particulars tr.best th { color: var(--accent); }
+.table-scroll { overflow-x: auto; }
+
+/* ---------- plates (drawings, certificates, photos) ---------- */
+.plates { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.plate { margin: 0; grid-column: span 3; display: grid; gap: 6px; align-content: start; }
+.plate.w6 { grid-column: span 6; }
+.plate.w4 { grid-column: span 4; }
+.plate.w2 { grid-column: span 2; }
+.plate button { display: block; padding: 0; border: 1px solid var(--line); background: var(--plate); cursor: zoom-in; width: 100%; overflow: hidden; }
+.plate img { display: block; width: 100%; height: auto; transition: transform .3s; }
+.plate button { transition: border-color .25s, box-shadow .25s, transform .25s; }
+.plate button:hover { border-color: var(--gold); box-shadow: 0 14px 30px -18px rgba(19, 38, 58, 0.5); transform: translateY(-3px); }
+.plate button:hover img { transform: scale(1.03); }
+
+/* scroll reveal: CSS scroll-driven, so content is always visible where unsupported or at rest */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+    .ruler { animation: draw linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; transform-origin: left; }
+  }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.plate figcaption { display: flex; gap: 10px; align-items: baseline; color: var(--muted); font-size: 0.85rem; line-height: 1.4; }
+.plate figcaption .mono { color: var(--accent); flex: none; }
+@media (max-width: 640px) { .plates .plate, .plates .plate.w4, .plates .plate.w2 { grid-column: span 6; } }
+@media (prefers-reduced-motion: reduce) { .plate img, .plate button { transition: none; } .plate button:hover, .plate button:hover img { transform: none; } }
+
+.photos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.photos.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.photos.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.photos .plate img { aspect-ratio: 4 / 3; object-fit: cover; }
+.photos .plate.doc img { object-fit: contain; padding: 8px; }
+@media (max-width: 860px) { .photos, .photos.three { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .photos, .photos.three { grid-template-columns: 1fr; } }
+
+/* ---------- contact ---------- */
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: stretch; }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.card { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); display: grid; gap: 4px; align-content: start; min-width: 0; }
+.card:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
+.card .v { font-family: var(--mono); font-size: 0.92rem; overflow-wrap: anywhere; }
+.card .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.copy { font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; background: transparent; color: var(--muted); border: 1px solid var(--line); cursor: pointer; }
+.copy:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 520px) { .cards { grid-template-columns: 1fr; } .card:nth-child(even) { padding-left: 0; border-left: 0; } }
+.cvbox { background: var(--ink); color: var(--paper); padding: 28px; display: grid; gap: 14px; align-content: space-between; }
+.cvbox { position: relative; overflow: hidden; }
+.cvbox::before { content: ""; position: absolute; right: -60px; top: -60px; width: 200px; height: 200px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent); box-shadow: 0 0 0 24px color-mix(in srgb, var(--gold) 8%, transparent), 0 0 0 48px color-mix(in srgb, var(--gold) 5%, transparent); }
+.cvbox > * { position: relative; }
+.cvbox h3 { font-family: var(--display); font-weight: 700; font-size: 1.8rem; line-height: 1.1; letter-spacing: -0.02em; }
+.cvbox p { opacity: 0.8; }
+.cvbox .label { color: color-mix(in srgb, var(--paper) 65%, transparent); }
+.cvbox .btn { justify-self: start; }
+.cvbox .btn:not(.primary) { border-color: color-mix(in srgb, var(--paper) 45%, transparent); color: var(--paper); }
+.cvbox .btn:not(.primary):hover { border-color: var(--accent); color: var(--accent); }
+.cvbox .btn.primary:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.cvbox .status { min-height: 1.4em; font-size: 0.85rem; opacity: 0.85; }
+.cvbox .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- education + certs ---------- */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; gap: 32px; } }
+.list { list-style: none; margin: 0; padding: 0; display: grid; }
+.list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.list li:first-child { border-top: 1px solid var(--line); }
+.list .t { font-weight: 500; }
+.list .s { grid-column: 1; color: var(--muted); font-size: 0.9rem; }
+.list .d { grid-column: 2; grid-row: 1; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.list .grade { color: var(--accent); font-family: var(--mono); font-size: 0.8rem; margin-left: 6px; }
+.courses { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; grid-column: 1 / -1; }
+
+/* ---------- skills ---------- */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.skills h3 { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+.skills ul { list-style: none; margin: 0; padding: 0; display: grid; }
+.skills li { padding: 8px 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 860px) { .skills { grid-template-columns: 1fr; gap: 28px; } }
+.software { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0; border-top: 1px solid var(--ink); }
+.software div { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
+.software b { font-weight: 600; }
+.software span { font-size: 0.82rem; color: var(--muted); }
+
+/* ---------- experience ---------- */
+.log { display: grid; }
+.entry { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 24px; padding: 24px 0; border-top: 1px solid var(--line); }
+.entry:last-child { border-bottom: 1px solid var(--line); }
+.entry .when { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.entry h3 { font-size: 1.15rem; font-weight: 600; }
+.entry .org { color: var(--sea); font-weight: 500; }
+.entry ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 4px; max-width: 70ch; }
+.badge { display: inline-block; margin-left: 8px; font-family: var(--mono); font-size: 0.7rem; padding: 2px 7px; background: var(--gold); color: var(--on-accent); vertical-align: middle; }
+.entry { position: relative; transition: background-color .25s; }
+.entry:hover { background: color-mix(in srgb, var(--gold) 7%, transparent); }
+.entry::before { content: ""; position: absolute; left: 0; top: -1px; height: 2px; width: 0; background: var(--gold); transition: width .5s ease; }
+.entry:hover::before { width: 100%; }
+@media (max-width: 640px) { .entry { grid-template-columns: 1fr; gap: 6px; } }
+
+/* ---------- publication ---------- */
+.pub { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pub .year { font-family: var(--display); font-weight: 700; font-size: 2.4rem; line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+.pub h3 { font-size: var(--step-2); font-weight: 600; line-height: 1.25; }
+.pub .venue { margin-top: 6px; font-style: italic; color: var(--muted); }
+.pub p { margin-top: 12px; max-width: 70ch; }
+.pub .links { margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 560px) { .pub { grid-template-columns: 1fr; gap: 8px; } }
+
+/* ---------- CAE capability cards ---------- */
+.cae { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.cae > div { position: relative; padding: 26px 22px 28px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; transition: background-color .25s; }
+.cae > div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+.cae > div:hover { background: color-mix(in srgb, var(--gold) 7%, transparent); }
+.cae h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 600; line-height: 1.3; }
+.cae p { color: var(--muted); }
+.cae > div > :last-child { margin-top: auto; padding-top: 8px; }
+.cae-foot { margin-top: 20px; color: var(--muted); font-size: 0.9rem; max-width: 76ch; }
+@media (max-width: 900px) {
+  .cae { grid-template-columns: minmax(0, 1fr); }
+  .cae > div { padding-right: 0; }
+  .cae > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* ---------- sea strip in research ---------- */
+.sea { position: relative; border: 1px solid var(--line); background: var(--sea-soft); margin-bottom: 40px; }
+.sea canvas { display: block; width: 100%; height: 200px; }
+.sea .readout { position: absolute; top: 12px; left: 14px; display: grid; gap: 2px; pointer-events: none; }
+.sea .readout b { font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+.sea .note { position: absolute; bottom: 10px; right: 14px; }
+@media (max-width: 560px) { .sea .note { display: none; } }
+
+/* ---------- footer ---------- */
+footer, .cvbox { --ink: #10202f; --paper: #f6efdd; --gold: #d9ae57; --accent: #e2b862; --on-accent: #10202f; }
+footer { margin-top: 96px; background: var(--ink); color: var(--paper); }
+footer .wrap { padding-block: 48px 32px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+footer .big { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 4.5vw, 2.8rem); line-height: 1.1; letter-spacing: -0.02em; }
+footer .big span { color: var(--gold); }
+footer .btn.primary { color: #13263a; }
+footer p { margin-top: 10px; opacity: 0.75; }
+footer .label { color: color-mix(in srgb, var(--paper) 60%, transparent); }
+footer .end { display: flex; gap: 12px; flex-wrap: wrap; }
+footer .btn:not(.primary) { border-color: color-mix(in srgb, var(--paper) 45%, transparent); color: var(--paper); }
+footer .btn.primary:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+footer .base { grid-column: 1 / -1; padding-top: 18px; border-top: 1px solid color-mix(in srgb, var(--paper) 15%, transparent); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 700px) { footer .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- lightbox ---------- */
+dialog.lb { border: 0; padding: 0; background: transparent; max-width: min(1400px, 96vw); max-height: 92vh; }
+dialog.lb::backdrop { background: rgba(6, 14, 22, 0.88); }
+dialog.lb img { display: block; max-width: 100%; max-height: 82vh; background: #fff; margin: 0 auto; }
+dialog.lb .cap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 10px; color: #e2e9ef; font-size: 0.9rem; }
+dialog.lb button { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; background: transparent; color: #e2e9ef; border: 1px solid #e2e9ef; padding: 6px 12px; cursor: pointer; }
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top"><i aria-hidden="true"></i>Rabby Sarkar</a>
+    <nav aria-label="Sections" id="nav">
+      <a href="#contact">Contact</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#design">Ship design</a>
+      <a href="#experience">Experience</a>
+      <a href="#publication">Publication</a>
+      <a href="#research">Research</a>
+      <a href="#cae">CAE</a>
+    </nav>
+    <a class="btn primary small cv-btn" href="cv/Rabby_Sarkar_CV.pdf" download target="_blank" rel="noopener">Download CV</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <canvas id="hero-sea" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div>
+        <p class="kicker label"><span class="dot"></span>Open to graduate roles and MSc research</p>
+        <h1>Rabby <span>Sarkar</span></h1>
+        <p class="role">Naval Architect &amp; Marine Engineer <span class="rot" id="rot"><span>· Ship Design</span><span aria-hidden="true">· Offshore Hydrodynamics</span><span aria-hidden="true">· Structural Analysis (FEM)</span><span aria-hidden="true">· Shipbuilding &amp; Repair</span></span></p>
+        <p class="lede">B.Sc. in Naval Architecture and Marine Engineering from the Military Institute of Science and Technology (MIST), Bangladesh, 2026. I work on ship design, offshore hydrodynamics and finite element structural analysis, with hands-on training at Khulna Shipyard.</p>
+        <div class="cta">
+          <a class="btn primary cv-btn" href="cv/Rabby_Sarkar_CV.pdf" download target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
+            Download CV
+          </a>
+          <a class="btn" href="#contact">Contact me</a>
+          <a class="btn" href="#design">View projects</a>
+        </div>
+        <div class="facts">
+          <div><span class="label">Ship design</span><strong>130 TEU vessel</strong></div>
+          <div><span class="label">Thesis</span><strong>Spar FOWT, AQWA</strong></div>
+          <div><span class="label">Khulna Shipyard</span><strong>92% marks</strong></div>
+          <div><span class="label">Publication</span><strong>IJAS 2024</strong></div>
+        </div>
+      </div>
+      <figure class="portrait">
+        <img src="img/portrait-suit.jpg" alt="Portrait of Rabby Sarkar" width="900" height="1165">
+        <figcaption><span class="label">Dhaka, Bangladesh</span><span class="label">RINA Student Member</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== 1. CONTACT ===================== -->
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Get in touch</span><span class="label">Email is the fastest way to reach me</span></div>
+        <h2>Contact</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="cards">
+          <div class="card"><span class="label">Email</span><div class="row"><span class="v" id="email">rabbysarkar.official@gmail.com</span><button class="copy" type="button" data-copy="email">Copy</button></div></div>
+          <div class="card"><span class="label">Phone / WhatsApp</span><div class="row"><span class="v" id="phone">+880 1305 261620</span><button class="copy" type="button" data-copy="phone">Copy</button></div></div>
+          <div class="card"><span class="label">Location</span><span class="v">Dhaka, Bangladesh</span></div>
+          <div class="card"><span class="label">Facebook</span><span class="v"><a href="https://www.facebook.com/share/1BQ7DFBAWe/" target="_blank" rel="noopener">Facebook profile ↗</a></span></div>
+          <div class="card"><span class="label">Availability</span><span class="v">Graduate roles · MSc research</span></div>
+          <div class="card"><span class="label">Languages</span><span class="v">Bengali · English</span></div>
+        </div>
+        <div class="cvbox">
+          <div style="display:grid; gap:10px">
+            <span class="label">Curriculum vitae · PDF · 3 pages</span>
+            <h3>Download my CV</h3>
+            <p>Education, shipyard training, projects, publication, certifications and referees, updated September 2026.</p>
+          </div>
+          <div style="display:grid; gap:8px">
+            <div class="actions">
+              <a class="btn primary cv-btn" href="cv/Rabby_Sarkar_CV.pdf" download target="_blank" rel="noopener">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg>
+                Download CV
+              </a>
+              <a class="btn" href="cv/Rabby_Sarkar_CV.pdf" target="_blank" rel="noopener">Open in new tab</a>
+            </div>
+            <span class="status" id="cv-status" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. EDUCATION ===================== -->
+  <section class="block tint" id="education">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Education and credentials</span></div>
+        <h2>Education</h2>
+      </div>
+      <div class="two">
+        <div>
+          <p class="label" style="margin-bottom:12px">Degrees and school certificates</p>
+          <ul class="list">
+            <li>
+              <span class="t">B.Sc. in Naval Architecture and Marine Engineering</span><span class="d">Mar 2022 – Jun 2026</span>
+              <span class="s">Military Institute of Science and Technology (MIST), Mirpur Cantonment, Dhaka</span>
+              <span class="s">Thesis: heave motion reduction of a spar-type floating offshore wind turbine for the Bay of Bengal</span>
+              <span class="courses"><span class="tag">Ship design &amp; construction</span><span class="tag">Hydrodynamics</span><span class="tag">FEM for marine structures</span><span class="tag">Resistance &amp; propulsion</span><span class="tag">Offshore &amp; coastal engineering</span></span>
+            </li>
+            <li><span class="t">Higher Secondary Certificate, Science<span class="grade">GPA 5.00 / 5.00</span></span><span class="d">2019 – 2021</span><span class="s">Abdul Kadir Mollah City College, Narsingdi</span></li>
+            <li><span class="t">Secondary School Certificate, Science<span class="grade">GPA 5.00 / 5.00</span></span><span class="d">2014 – 2019</span><span class="s">Gulesta Hafiz Memorial Institute, Narsingdi</span></li>
+          </ul>
+          <div class="photos two" style="margin-top:20px">
+            <figure class="plate"><button type="button" data-full="img/campus-mist.jpg"><img src="img/campus-mist.jpg" alt="Aerial view of the MIST campus in Mirpur Cantonment" loading="lazy" width="973" height="651"></button><figcaption><span class="mono">MIST</span>Mirpur Cantonment, Dhaka.</figcaption></figure>
+            <figure class="plate"><button type="button" data-full="img/campus-akmcc.jpg"><img src="img/campus-akmcc.jpg" alt="Abdul Kadir Mollah City College campus" loading="lazy" width="515" height="388"></button><figcaption><span class="mono">AKMCC</span>Narsingdi.</figcaption></figure>
+          </div>
+        </div>
+        <div>
+          <p class="label" style="margin-bottom:12px">Certifications and memberships</p>
+          <ul class="list">
+            <li><span class="t">Student Member</span><span class="d">Jan – Dec 2026</span><span class="s">Royal Institution of Naval Architects (RINA), London</span></li>
+            <li><span class="t">Nondestructive Testing for Beginners</span><span class="d">17 May 2026</span><span class="s">American Society for Nondestructive Testing (ASNT)</span></li>
+            <li><span class="t">Introduction to Project Cycle Management</span><span class="d">13 May 2026</span><span class="s">International Training Centre of the ILO (ITCILO)</span></li>
+            <li><span class="t">Ship Design Software: Maxsurf &amp; Rhinoceros<span class="grade">A+</span></span><span class="d">Feb 2024</span><span class="s">NAME Department, MIST</span></li>
+            <li><span class="t">Workshop: Report Writing &amp; MS Word Skills</span><span class="d">30 Jul 2025</span><span class="s">MIST Readers Club</span></li>
+          </ul>
+          <div class="photos three" style="margin-top:20px">
+            <figure class="plate doc"><button type="button" data-full="img/cert-rina.jpg"><img src="img/cert-rina.jpg" alt="RINA student membership certificate" loading="lazy" width="518" height="737"></button><figcaption><span class="mono">RINA</span>Membership.</figcaption></figure>
+            <figure class="plate doc"><button type="button" data-full="img/cert-asnt.jpg"><img src="img/cert-asnt.jpg" alt="ASNT certificate of completion, Nondestructive Testing for Beginners" loading="lazy" width="1042" height="737"></button><figcaption><span class="mono">ASNT</span>NDT.</figcaption></figure>
+            <figure class="plate doc"><button type="button" data-full="img/cert-mist.jpg"><img src="img/cert-mist.jpg" alt="MIST certificate of achievement for the ship design software course, A+ grade" loading="lazy" width="986" height="717"></button><figcaption><span class="mono">MIST</span>Maxsurf &amp; Rhino.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 3. SKILLS ===================== -->
+  <section class="block" id="skills">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Tools and methods</span></div>
+        <h2>Skills</h2>
+      </div>
+      <div class="skills">
+        <div>
+          <h3>Analysis</h3>
+          <ul>
+            <li>Offshore hydrodynamics and RAO analysis</li>
+            <li>Wave–structure interaction</li>
+            <li>Catenary mooring analysis</li>
+            <li>Finite element structural analysis</li>
+            <li>Resistance and propulsion (Holtrop &amp; Mennen)</li>
+            <li>Intact stability and hydrostatics</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Design &amp; production</h3>
+          <ul>
+            <li>Concept to production design spiral</li>
+            <li>Lines plan and general arrangement</li>
+            <li>Scantlings and midship section</li>
+            <li>Shell expansion and structural drawings</li>
+            <li>Fabrication, assembly and quality inspection</li>
+            <li>Technical reports and documentation</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Leadership &amp; communication</h3>
+          <ul>
+            <li>Club president, 2025</li>
+            <li>Event director, NAME FEST 2026</li>
+            <li>Student coordinator, shipyard training</li>
+            <li>Proposals, sponsorship and reports</li>
+            <li>Presentations and public speaking</li>
+            <li>Bengali (native), English (professional)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="software">
+        <div><b>ANSYS AQWA</b><span>Hydrodynamics</span></div>
+        <div><b>ANSYS Workbench</b><span>FEA, APDL</span></div>
+        <div><b>ANSYS Fluent</b><span>CFD</span></div>
+        <div><b>Maxsurf</b><span>Hull form, stability</span></div>
+        <div><b>Rhinoceros</b><span>3D modelling</span></div>
+        <div><b>AutoCAD</b><span>Drawings</span></div>
+        <div><b>MATLAB</b><span>Analysis</span></div>
+        <div><b>C++ · Arduino</b><span>Programming</span></div>
+        <div><b>MS Office</b><span>Excel, Word, PowerPoint</span></div>
+        <div><b>Zotero · SPSS</b><span>Research tools</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 4. SHIP DESIGN ===================== -->
+  <section class="block tint" id="design">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Ship design project · NAME-300 · Mar 2024 to Jun 2025</span><span class="label">Team project</span></div>
+        <h2>130 TEU inland container vessel, Dhaka to Khulna</h2>
+        <p class="sub">A complete design spiral for a river container ship on a 354 km inland route, from owner's requirements to lines plan, structure, machinery and intact stability.</p>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>The owner asked for 130 TEU at 10 knots. Route data from BIWTA set a maximum draft of 4 m and a 25 m air draft under the lowest bridge. We compared three methods for the preliminary particulars (geosim, cube root and empirical) and settled on a 78 m hull.</p>
+          <p>I worked on the hull form in Maxsurf and Rhino, the lines plan and general arrangement in AutoCAD, Holtrop and Mennen resistance, propeller and shaft sizing, scantlings and the midship section, and the lightship weight estimate.</p>
+          <p>Stability was checked in Maxsurf for five load cases: lightship, ballast departure and arrival, and full load departure and arrival, with GZ curves and large-angle stability for each.</p>
+          <p class="mono" style="color:var(--muted)">Calculations covered: principal particulars · offset table · lightweight · resistance &amp; power · propeller · main engine · shaft · rudder · engine foundation · scantlings</p>
+          <div class="tags"><span class="tag">Maxsurf</span><span class="tag">Rhinoceros</span><span class="tag">AutoCAD</span><span class="tag">Holtrop &amp; Mennen</span><span class="tag">Scantlings</span><span class="tag">Intact stability</span></div>
+        </div>
+        <div class="table-scroll">
+          <table class="particulars">
+            <caption class="label">Principal particulars</caption>
+            <tbody>
+              <tr><th scope="row">Length between perpendiculars</th><td>78 m</td></tr>
+              <tr><th scope="row">Breadth / depth / draft</th><td>15 / 5 / 3.5 m</td></tr>
+              <tr><th scope="row">Block coefficient C<sub>B</sub></th><td>0.75</td></tr>
+              <tr><th scope="row">Deadweight / displacement</th><td>2 220 / 3 175 t</td></tr>
+              <tr><th scope="row">Service speed</th><td>10 kn</td></tr>
+              <tr><th scope="row">Container stowage</th><td>3 tiers 8×5 + 1 tier 2×5</td></tr>
+              <tr><th scope="row">Brake power (calc.)</th><td>950 kW</td></tr>
+              <tr><th scope="row">Propeller</th><td>4 blades, Ø 2.46 m, P/D 0.885</td></tr>
+              <tr><th scope="row">Bottom / keel / side plate</th><td>9 / 11 / 8 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="plates" style="margin-top:40px">
+        <figure class="plate w6"><button type="button" data-full="img/ga-profile.jpg"><img src="img/ga-profile.jpg" alt="General arrangement elevation with container stowage" loading="lazy" width="1500" height="440"></button><figcaption><span class="mono">DWG 1</span>General arrangement, elevation with container stowage.</figcaption></figure>
+        <figure class="plate w4"><button type="button" data-full="img/hull-3d.jpg"><img src="img/hull-3d.jpg" alt="3D hull model in Maxsurf" loading="lazy" width="1500" height="716"></button><figcaption><span class="mono">DWG 2</span>3D hull surface built in Maxsurf from the hydrostatic particulars.</figcaption></figure>
+        <figure class="plate w2"><button type="button" data-full="img/route.jpg"><img src="img/route.jpg" alt="Map of the inland route" loading="lazy" width="850" height="456"></button><figcaption><span class="mono">DWG 3</span>Inland route survey.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/midship.jpg"><img src="img/midship.jpg" alt="Midship section drawing" loading="lazy" width="1156" height="468"></button><figcaption><span class="mono">DWG 4</span>Midship section with longitudinal framing.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/shell-exp.jpg"><img src="img/shell-exp.jpg" alt="Shell expansion drawing" loading="lazy" width="1500" height="467"></button><figcaption><span class="mono">DWG 5</span>Shell expansion, plates and stiffeners.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/ga-decks.jpg"><img src="img/ga-decks.jpg" alt="Under deck and bottom plan" loading="lazy" width="1096" height="512"></button><figcaption><span class="mono">DWG 6</span>Under deck and bottom plan.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/shaft.jpg"><img src="img/shaft.jpg" alt="Propeller shaft arrangement drawing" loading="lazy" width="1480" height="590"></button><figcaption><span class="mono">DWG 7</span>Propeller shaft arrangement.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 5. EXPERIENCE ===================== -->
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Industry and leadership</span></div>
+        <h2>Experience</h2>
+      </div>
+      <div class="log">
+        <article class="entry">
+          <div class="when">4 May – 29 May 2025</div>
+          <div>
+            <h3>Industrial Trainee <span class="badge">92% marks</span></h3>
+            <p class="org">Khulna Shipyard Limited (Bangladesh Navy), Khulna</p>
+            <ul>
+              <li>Worked alongside shipbuilding and repair teams on fabrication and block assembly.</li>
+              <li>Supported hull structure inspection and maintenance documentation.</li>
+              <li>Read production drawings and followed them through the shop workflow, including shaft alignment and quality control.</li>
+              <li>Student coordinator for the training group, handling communication and task allocation.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">24 – 25 Jan 2026</div>
+          <div>
+            <h3>Director, Event Management</h3>
+            <p class="org">NAME FEST 2026 Organizing Committee, MIST</p>
+            <ul>
+              <li>Ran event logistics and coordination for the NAME Department's two-day festival. Awarded a Certificate of Honor by the Head of Department.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">Jul 2025 – Dec 2025</div>
+          <div>
+            <h3>President</h3>
+            <p class="org">MIST Readers Club, Dhaka</p>
+            <ul>
+              <li>Led the executive panel and planned the semester's events, including creative writing workshops and competitions.</li>
+              <li>Wrote event proposals, sponsorship requests and reports for faculty and administration.</li>
+              <li>Organised the Report Writing &amp; MS Word Skills workshop on 30 July 2025.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="when">Jun 2024 – Dec 2025</div>
+          <div>
+            <h3>Trainee Officer</h3>
+            <p class="org">PI Labs Academy, Bangladesh</p>
+            <ul>
+              <li>Helped coordinate training programmes and kept participants informed and engaged.</li>
+              <li>Supported trainers during sessions and handled day-to-day communication.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="subhead"><span class="label">On the yard and on campus</span><span class="label">Click any image to enlarge</span></div>
+      <div class="photos">
+        <figure class="plate"><button type="button" data-full="img/yard-deck.jpg"><img src="img/yard-deck.jpg" alt="Rabby Sarkar in a hard hat on the deck of a vessel at the shipyard" loading="lazy" width="1400" height="1050"></button><figcaption><span class="mono">PH 1</span>On deck during industrial training.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/yard-hull.jpg"><img src="img/yard-hull.jpg" alt="Rabby Sarkar beside a hull under construction" loading="lazy" width="1400" height="1050"></button><figcaption><span class="mono">PH 2</span>Inside a hull block under construction.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/yard-slipway.jpg"><img src="img/yard-slipway.jpg" alt="Vessel hull on the slipway at the shipyard" loading="lazy" width="1280" height="960"></button><figcaption><span class="mono">PH 3</span>Hull on the slipway.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/mist-portrait.jpg"><img src="img/mist-portrait.jpg" alt="Rabby Sarkar in a suit at MIST" loading="lazy" width="787" height="695" style="object-position: 30% 30%"></button><figcaption><span class="mono">PH 4</span>At MIST.</figcaption></figure>
+      </div>
+      <div class="photos three" style="margin-top:14px">
+        <figure class="plate doc"><button type="button" data-full="img/cert-ksy.jpg"><img src="img/cert-ksy.jpg" alt="Khulna Shipyard Limited training certificate, 92 percent marks" loading="lazy" width="1100" height="786"></button><figcaption><span class="mono">KSY</span>Training certificate, 92% marks.</figcaption></figure>
+        <figure class="plate doc"><button type="button" data-full="img/cert-namefest.jpg"><img src="img/cert-namefest.jpg" alt="Certificate of Honor, Director Event Management, NAME FEST 2026" loading="lazy" width="1100" height="784"></button><figcaption><span class="mono">HONOR</span>NAME FEST 2026.</figcaption></figure>
+        <figure class="plate doc"><button type="button" data-full="img/cert-readers.jpg"><img src="img/cert-readers.jpg" alt="MIST Readers Club workshop certificate signed as President" loading="lazy" width="1100" height="786"></button><figcaption><span class="mono">CLUB</span>Readers Club workshop.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 6. PUBLICATION ===================== -->
+  <section class="block tint" id="publication">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Peer-reviewed publication</span></div>
+        <h2>Publication</h2>
+      </div>
+      <article class="pub">
+        <div class="year">2024</div>
+        <div>
+          <h3>Structural Analysis of Ship Hulls Using Finite Element Methods</h3>
+          <p class="venue">Rabby Sarkar · International Journal of Applied Sciences (IJAS), Vol. 1, Issue 4</p>
+          <p>A review of finite element analysis for ship hulls under hydrostatic, hydrodynamic, wind and wave loads. It covers modelling in ANSYS Workbench and APDL, how structural integrity is assessed, where current practice falls short, and what that means for hull design.</p>
+          <div class="links"><a class="btn small" href="https://doi.org/10.70844/ijas.2024.1.4" target="_blank" rel="noopener">Read via DOI 10.70844/ijas.2024.1.4</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 7. RESEARCH ===================== -->
+  <section class="block" id="research">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Thesis & published research · 2026</span><span class="label">Supervisor: Dr S M Ikhtiar Mahmud</span></div>
+        <h2>Analysis of fairlead position and heave of a spar floating wind turbine</h2>
+        <p class="sub">I designed a 15 m diameter, 85 m draft spar FOWT for the Bay of Bengal, built the AQWA hydrodynamic model, and ran 3-hour time-domain simulations with Python and Capytaine BEM to find whether mooring fairlead depth controls heave.</p>
+      </div>
+
+      <div class="sea" aria-hidden="true">
+        <canvas id="sea"></canvas>
+        <div class="readout mono"><span>Spar FOWT · 5 MW class · 320 m depth</span><span>heave&nbsp;ζ₃ = <b id="heave">+0.00</b> m</span></div>
+        <span class="note label">Illustrative motion, not simulation output</span>
+      </div>
+
+      <div class="split">
+        <div class="prose">
+          <p>Off Bangladesh the continental shelf drops beyond 60 m within 160 km of shore. I sized a spar for a 5 MW turbine at a 320 m deep site (20.09° N, 91.50° E), with a 15 m diameter hull, 85 m draft and 15 m freeboard, ballasted with magnetite and seawater. I validated the hydrostatics in ANSYS AQWA.</p>
+          <p>I then built a frequency-domain model in Python with hydrodynamic coefficients from Capytaine BEM and a catenary mooring solver. I ran nonlinear time-domain simulations with the fairlead at five depths (34–66.5 m below the waterline), holding anchors and all other parameters fixed, over five random wave seeds.</p>
+          <p class="finding">The fairlead depth barely affects heave. Moving it from above the centre of buoyancy to below the centre of gravity changes the heave standard deviation by less than 0.1% with the original mooring, and 0.7–2% with a stiffer one. The catenary mooring supplies only 0.1–0.9% of the heave stiffness, so the vertical fairlead forces are too weak to compete with hydrostatic restoring. Heave must be controlled through the hull—a heave plate or deeper draft.</p>
+          <div class="tags"><span class="tag">ANSYS AQWA</span><span class="tag">Capytaine BEM</span><span class="tag">Python analysis</span><span class="tag">Catenary mooring</span><span class="tag">Time-domain nonlinear</span><span class="tag">Fairlead design</span></div>
+          <p class="label">Co-researcher: Rasik Akhtar Apon · Supervisor: S. M. Ikhtiar Mahmud · Journal manuscript in preparation</p>
+        </div>
+        <div style="display:grid; gap:32px; min-width:0">
+          <div class="table-scroll">
+            <table class="particulars">
+              <caption class="label">Main particulars, spar FOWT</caption>
+              <tbody>
+                <tr><th scope="row">Hull diameter / length</th><td>15.0 m / 100 m</td></tr>
+                <tr><th scope="row">Draft / freeboard</th><td>85 m / 15 m</td></tr>
+                <tr><th scope="row">Centre of gravity / buoyancy</th><td>−58.50 / −42.50 m</td></tr>
+                <tr><th scope="row">BG separation</th><td>16.00 m</td></tr>
+                <tr><th scope="row">Heave natural period</th><td>19.0 s</td></tr>
+                <tr><th scope="row">Water depth, design</th><td>320 m</td></tr>
+                <tr><th scope="row">Mooring</th><td>3 catenary lines, 120°</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="display:grid; gap:12px; min-width:0">
+            <div class="table-scroll">
+              <table class="particulars">
+                <caption class="label">Cyclone sea state · 3 h × 5 seeds</caption>
+                <thead><tr><th scope="col">Fairlead</th><th scope="col" style="text-align:right">Heave σ</th><th scope="col" style="text-align:right">Peak tension</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">P1 · 34 m</th><td>2.61 m</td><td>198 kN</td></tr>
+                  <tr><th scope="row">P2 · 42.5 m</th><td>2.61 m</td><td>189 kN</td></tr>
+                  <tr><th scope="row">P3 · 50.5 m</th><td>2.61 m</td><td>181 kN</td></tr>
+                  <tr><th scope="row">P4 · 58.5 m</th><td>2.61 m</td><td>173 kN</td></tr>
+                  <tr class="best"><th scope="row">P5 · 66.5 m</th><td>2.61 m</td><td>166 kN</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="color:var(--muted); font-size:0.9rem">P2 sits at the centre of buoyancy, P4 at the centre of gravity. Heave is flat to within 0.05% — well under the 2.4% scatter between wave seeds — while peak line tension falls 16%.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="plates" style="margin-top:40px">
+        <figure class="plate w4"><button type="button" data-full="img/spar-aqwa.jpg"><img src="img/spar-aqwa.jpg" alt="ANSYS AQWA model of the moored spar with three catenary lines" loading="lazy" width="1148" height="596"></button><figcaption><span class="mono">FIG 1</span>Moored spar in ANSYS AQWA, three catenary lines at 120°.</figcaption></figure>
+        <figure class="plate w2"><button type="button" data-full="img/spar-schematic.jpg"><img src="img/spar-schematic.jpg" alt="Schematic of the spar hull sections and mooring lines" loading="lazy" width="500" height="673"></button><figcaption><span class="mono">FIG 2</span>Hull sections, ballast and mooring layout.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/heave-rao.jpg"><img src="img/heave-rao.jpg" alt="Heave RAO compared with published reference data" loading="lazy" width="942" height="531"></button><figcaption><span class="mono">FIG 3</span>Heave RAO, validated against a published reference model.</figcaption></figure>
+        <figure class="plate"><button type="button" data-full="img/surge-rao.jpg"><img src="img/surge-rao.jpg" alt="Surge RAO compared with published reference data" loading="lazy" width="785" height="505"></button><figcaption><span class="mono">FIG 4</span>Surge RAO, same validation case.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 8. CAE & SIMULATION ===================== -->
+  <section class="block tint" id="cae">
+    <div class="wrap">
+      <div class="head">
+        <div class="ruler"></div>
+        <div class="meta"><span class="label">Simulation capability</span><span class="label">ANSYS Workbench</span></div>
+        <h2>CAE &amp; simulation</h2>
+        <p class="sub">Hydrodynamic, fluid and structural analysis in ANSYS. The downloads below are the working Workbench projects; opening them needs ANSYS with a matching release.</p>
+      </div>
+
+      <div class="cae">
+        <div>
+          <span class="label">ANSYS AQWA</span>
+          <h3>Offshore hydrodynamics</h3>
+          <p>Panel-mesh diffraction and radiation analysis, hydrostatics, catenary mooring equilibrium and time-domain response. The models include the 85&nbsp;m draft spar floating wind turbine and a fixed jacket structure.</p>
+          <div class="tags"><span class="tag">Diffraction / radiation</span><span class="tag">RAOs</span><span class="tag">Mooring statics</span><span class="tag">Time domain</span></div>
+          <a class="btn small dl-btn" href="ansys/ansys-aqwa-hydrodynamics.zip" data-name="ansys-aqwa-hydrodynamics.zip" download>AQWA projects · 2.7 MB</a>
+        </div>
+        <div>
+          <span class="label">ANSYS CFX</span>
+          <h3>Computational fluid dynamics</h3>
+          <p>A CFD exercise built in CFX: geometry and mesh preparation, fluid domain and boundary conditions, a steady-state solve and review of the flow field in CFD-Post.</p>
+          <div class="tags"><span class="tag">Meshing</span><span class="tag">Boundary conditions</span><span class="tag">Steady state</span><span class="tag">CFD-Post</span></div>
+          <a class="btn small dl-btn" href="ansys/ansys-cfx-cfd.zip" data-name="ansys-cfx-cfd.zip" download>CFX project · 0.5 MB</a>
+        </div>
+        <div>
+          <span class="label">ANSYS Mechanical</span>
+          <h3>Structural FEA</h3>
+          <p>Plate structural model: meshing, loads and restraints, solved for stress and deflection. Finite element analysis of ship hull structures is also the subject of my IJAS review paper.</p>
+          <div class="tags"><span class="tag">Static structural</span><span class="tag">Stress</span><span class="tag">Deflection</span><span class="tag">Workbench</span></div>
+          <a class="btn small dl-btn" href="ansys/ansys-mechanical-plate.zip" data-name="ansys-mechanical-plate.zip" download>Plate model · 0.2 MB</a>
+        </div>
+      </div>
+
+      <p class="cae-foot">Each archive is the full Workbench project, with mesh, set-up and result files; opening it needs ANSYS. Figures from these models appear in the Research and Publication sections above.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p class="label">Rabby Sarkar · Naval Architect &amp; Marine Engineer</p>
+      <p class="big" style="margin-top:10px; opacity:1">Let's build better <span>ships</span>.</p>
+      <p>rabbysarkar.official@gmail.com · +880 1305 261620</p>
+    </div>
+    <div class="end">
+      <a class="btn primary cv-btn" href="cv/Rabby_Sarkar_CV.pdf" download target="_blank" rel="noopener">Download CV</a>
+      <a class="btn" href="#contact">Contact</a>
+    </div>
+    <div class="base"><span class="label">© 2026 Rabby Sarkar</span><a class="label" href="#top" style="color:inherit">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<dialog class="lb" id="lb">
+  <img id="lb-img" alt="">
+  <div class="cap"><span id="lb-cap"></span><button type="button" id="lb-close">Close</button></div>
+</dialog>
+
+<script>
+(() => {
+  // ---- lightbox ----
+  const lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
+  document.querySelectorAll('.plate button').forEach(b => b.addEventListener('click', () => {
+    lbImg.src = b.dataset.full;
+    lbImg.alt = b.querySelector('img').alt;
+    lbCap.textContent = b.parentElement.querySelector('figcaption').textContent;
+    if (lb.showModal) lb.showModal();
+  }));
+  document.getElementById('lb-close').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+
+  // ---- copy buttons ----
+  document.querySelectorAll('.copy').forEach(btn => btn.addEventListener('click', () => {
+    const el = document.getElementById(btn.dataset.copy);
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1600); };
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(el);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected';
+    };
+    try { navigator.clipboard.writeText(el.textContent.trim()).then(done, fallback); } catch (e) { fallback(); }
+  }));
+
+  // ---- CV download: save through the viewer when it allows it, otherwise the link opens the PDF ----
+  const status = document.getElementById('cv-status');
+  let downloads = null;
+  if (window.claude && claude.use) claude.use('downloads').then(d => { downloads = d; }).catch(() => {});
+  document.querySelectorAll('.cv-btn').forEach(a => a.addEventListener('click', async e => {
+    if (!downloads) return; // plain link: opens the PDF in a new tab
+    e.preventDefault();
+    try {
+      status.textContent = 'Preparing the PDF…';
+      const blob = await (await fetch(a.getAttribute('href'))).blob();
+      await downloads.save({ filename: 'Rabby_Sarkar_CV.pdf', data: blob });
+      status.textContent = 'CV saved.';
+    } catch (err) {
+      if (err && err.code === 'declined') { status.textContent = 'Download cancelled.'; }
+      else { status.textContent = 'Opening the PDF instead.'; window.open(a.href, '_blank', 'noopener'); }
+    }
+    setTimeout(() => { status.textContent = ''; }, 4000);
+  }));
+
+  // ---- ANSYS project archives: same route as the CV ----
+  document.querySelectorAll('.dl-btn').forEach(a => a.addEventListener('click', async e => {
+    if (!downloads) return; // plain link with the download attribute
+    e.preventDefault();
+    const label = a.textContent;
+    try {
+      a.textContent = 'Preparing…';
+      const blob = await (await fetch(a.getAttribute('href'))).blob();
+      await downloads.save({ filename: a.dataset.name, data: blob });
+      a.textContent = 'Saved';
+    } catch (err) {
+      if (!(err && err.code === 'declined')) window.open(a.href, '_blank', 'noopener');
+      a.textContent = label;
+    }
+    setTimeout(() => { a.textContent = label; }, 2500);
+  }));
+
+  // ---- highlight the current section in the nav ----
+  const links = [...document.querySelectorAll('#nav a')];
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (en.isIntersecting) links.forEach(l => l.classList.toggle('on', l.getAttribute('href') === '#' + en.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(l => { const s = document.querySelector(l.getAttribute('href')); if (s) io.observe(s); });
+
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- scroll reveal (CSS scroll-driven; this only tags the blocks) ----
+  document.querySelectorAll('.head, .split, .plates, .photos, .entry, .pub, .cards, .cvbox, .skills, .software, .two, .sea')
+    .forEach(el => el.classList.add('reveal'));
+
+  // ---- rotating specialisms under the name ----
+  const rot = [...document.querySelectorAll('#rot span')];
+  if (!still && rot.length > 1) {
+    let k = 0;
+    setInterval(() => {
+      rot[k].setAttribute('aria-hidden', 'true');
+      k = (k + 1) % rot.length;
+      rot[k].removeAttribute('aria-hidden');
+    }, 2600);
+  }
+
+  // ---- hero sea: layered swell with a 130 TEU container ship crossing ----
+  (() => {
+    const c = document.getElementById('hero-sea'), g = c.getContext('2d');
+    let w = 0, h = 0; const col = {};
+    const read = () => { const cs = getComputedStyle(document.documentElement); ['--sea', '--gold', '--ink', '--paper', '--sea-soft'].forEach(k => col[k] = cs.getPropertyValue(k).trim()); };
+    const fit = () => { const r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); w = r.width; h = r.height; c.width = w * d; c.height = h * d; g.setTransform(d, 0, 0, d, 0, 0); };
+    const swell = (x, t, i) => Math.sin(x * (0.012 - i * 0.003) + t * (0.9 - i * 0.2) + i * 1.7) * (7 - i * 1.5) + Math.sin(x * 0.031 + t * 1.4 + i) * 2.5;
+    const boxColors = () => [col['--gold'], col['--sea'], '#c9663b', col['--gold'], '#3f8f6b', col['--sea']];
+    const ship = (x, base, t) => {
+      const y = base + swell(x, t, 1), slope = (swell(x + 6, t, 1) - swell(x - 6, t, 1)) / 12;
+      g.save(); g.translate(x, y); g.rotate(Math.atan(slope) * 0.6);
+      const L = Math.min(260, Math.max(170, w * 0.2)), s = L / 260;
+      g.scale(s, s);
+      // containers: 3 tiers of 8 bays, as in the general arrangement
+      const bx = boxColors();
+      for (let tier = 0; tier < 3; tier++) for (let bay = 0; bay < 8; bay++) {
+        g.fillStyle = bx[(bay * 3 + tier * 2) % bx.length];
+        g.fillRect(-92 + bay * 22, -30 - tier * 12, 20, 11);
+      }
+      // accommodation and bridge aft
+      g.fillStyle = col['--paper']; g.strokeStyle = col['--ink']; g.lineWidth = 2;
+      g.fillRect(-124, -58, 26, 40); g.strokeRect(-124, -58, 26, 40);
+      g.fillStyle = col['--ink']; g.fillRect(-128, -62, 34, 5);
+      for (let i = 0; i < 3; i++) g.fillRect(-120 + i * 8, -50, 5, 4);
+      g.fillRect(-114, -74, 4, 12); // mast
+      // hull
+      g.beginPath(); g.moveTo(-132, -18); g.lineTo(104, -18); g.lineTo(126, -24); g.lineTo(112, 6); g.lineTo(-124, 6); g.closePath();
+      g.fillStyle = col['--ink']; g.fill();
+      g.fillStyle = '#b5452e'; g.fillRect(-124, 0, 236, 6); // boot-top
+      g.restore();
+    };
+    const frame = t => {
+      g.clearRect(0, 0, w, h);
+      const base = h * 0.58;
+      const shipX = ((t * 22) % (w + 400)) - 200;
+      // back swell
+      for (let i = 2; i >= 0; i--) {
+        if (i === 1) ship(shipX, base - 2, t);
+        g.beginPath(); g.moveTo(0, h);
+        for (let x = 0; x <= w; x += 6) g.lineTo(x, base + i * 16 + swell(x, t, i));
+        g.lineTo(w, h); g.closePath();
+        g.fillStyle = col['--sea']; g.globalAlpha = 0.14 + (2 - i) * 0.08; g.fill(); g.globalAlpha = 1;
+      }
+      // brass glints on the crests
+      g.fillStyle = col['--gold'];
+      for (let i = 0; i < 26; i++) {
+        const x = ((i * 137.5 + t * 14) % (w + 40)) - 20, a = 0.5 + 0.5 * Math.sin(t * 2 + i);
+        g.globalAlpha = a * 0.7; g.fillRect(x, base + 4 + swell(x, t, 0) - 1, 6 + (i % 3) * 3, 1.5);
+      }
+      g.globalAlpha = 1;
+    };
+    read(); fit();
+    addEventListener('resize', () => { fit(); if (still) frame(6); });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { read(); if (still) frame(6); });
+    new MutationObserver(() => { read(); if (still) frame(6); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (still) frame(6);
+    else { let s0 = null; const loop = ts => { if (s0 === null) s0 = ts - 6000; frame((ts - s0) / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+  })();
+
+  // ---- sea strip: a moored spar heaving in an irregular sea ----
+  const cv = document.getElementById('sea'), ctx = cv.getContext('2d'), out = document.getElementById('heave');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0; const colors = {};
+  const readColors = () => {
+    const cs = getComputedStyle(document.documentElement);
+    ['--ink', '--sea', '--accent', '--muted'].forEach(k => colors[k] = cs.getPropertyValue(k).trim());
+  };
+  const size = () => {
+    const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  };
+  // a few wave components spread around a 14.5 s peak period
+  const comps = [[1, 14.5, 0], [0.55, 11.2, 1.3], [0.4, 17.8, 2.1], [0.25, 9.0, 4.0], [0.18, 7.1, 5.2]]
+    .map(([a, T, p]) => ({ a, w: 2 * Math.PI / T, k: (2 * Math.PI / T) ** 2 / 9.81, p }));
+  const eta = (x, t) => comps.reduce((s, c) => s + c.a * Math.cos(c.k * x - c.w * t + c.p), 0);
+  const draw = t => {
+    ctx.clearRect(0, 0, W, H);
+    const sea = H * 0.42, scale = 10, px = 3.2;
+    const cx = W * 0.62;
+    ctx.beginPath(); ctx.moveTo(0, H);
+    for (let x = 0; x <= W; x += 4) ctx.lineTo(x, sea - eta((x - cx) / px, t) * scale);
+    ctx.lineTo(W, H); ctx.closePath();
+    ctx.fillStyle = colors['--sea']; ctx.globalAlpha = 0.16; ctx.fill(); ctx.globalAlpha = 1;
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += 4) { const y = sea - eta((x - cx) / px, t) * scale; x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.strokeStyle = colors['--sea']; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.setLineDash([4, 6]); ctx.strokeStyle = colors['--muted']; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, sea); ctx.lineTo(W, sea); ctx.stroke(); ctx.setLineDash([]);
+    const heave = 0.9 * comps.reduce((s, c) => s + c.a * Math.cos(-c.w * t + c.p) / (1 + (c.w * 19 / (2 * Math.PI)) ** 2 * 0.25), 0);
+    const y0 = sea - heave * scale * 1.4, hullW = 16, draftPx = H * 0.62, free = 18;
+    ctx.strokeStyle = colors['--muted']; ctx.lineWidth = 1;
+    const fy = y0 + draftPx * 0.2;
+    [[-1, W * 0.55], [1, W * 0.5]].forEach(([dir, span]) => {
+      ctx.beginPath(); ctx.moveTo(cx + dir * hullW / 2, fy);
+      ctx.quadraticCurveTo(cx + dir * span * 0.5, H + 10, cx + dir * span, H + 4); ctx.stroke();
+    });
+    ctx.fillStyle = colors['--ink']; ctx.fillRect(cx - hullW / 2, y0 - free, hullW, draftPx + free);
+    ctx.fillStyle = colors['--accent']; ctx.fillRect(cx - hullW / 2, y0 - free, hullW, 6);
+    ctx.strokeStyle = colors['--ink']; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx, y0 - free); ctx.lineTo(cx, y0 - free - 58); ctx.stroke();
+    ctx.lineWidth = 2; const hub = [cx, y0 - free - 60], rot = t * 0.9;
+    for (let i = 0; i < 3; i++) { const a = rot + i * 2 * Math.PI / 3; ctx.beginPath(); ctx.moveTo(...hub); ctx.lineTo(hub[0] + Math.cos(a) * 34, hub[1] + Math.sin(a) * 34); ctx.stroke(); }
+    ctx.fillStyle = colors['--accent']; ctx.beginPath(); ctx.arc(...hub, 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = colors['--accent']; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cx + 22, sea); ctx.lineTo(cx + 22, y0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx + 16, y0); ctx.lineTo(cx + 28, y0); ctx.stroke();
+    out.textContent = (heave >= 0 ? '+' : '−') + Math.abs(heave).toFixed(2);
+  };
+  let t0 = null;
+  const loop = ts => { if (t0 === null) t0 = ts; draw((ts - t0) / 1000 * 3); requestAnimationFrame(loop); }; // sea time runs 3x real time
+  readColors(); size();
+  addEventListener('resize', () => { size(); if (reduce) draw(3); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce) draw(3); });
+  new MutationObserver(() => { readColors(); if (reduce) draw(3); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (reduce) draw(3); else requestAnimationFrame(loop);
+})();
+</script>
+
+</html>
